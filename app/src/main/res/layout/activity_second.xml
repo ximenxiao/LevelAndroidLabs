@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/YourProfile"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/yourName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/yourName"
+        android:textSize="30dp" />
+
+    <EditText
+        android:id="@+id/enterName"
+        android:hint="@string/enterNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        />
+
+
+    <TextView
+        android:id="@+id/yourEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/yourEmail"
+        android:textSize="30dp" />
+
+    <EditText
+        android:id="@+id/enteredEmail"
+        android:hint="@string/enteredEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        />
+
+    <TextView
+        android:id="@+id/picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/picture"
+        android:textSize="30dp" />
+
+    <ImageButton
+        android:id="@+id/imagePicture"
+        android:padding="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/flag"
+        />
+
+<!--        android:src="@drawable/picture_frame"-->
+    <TextView
+        android:id="@+id/notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notes"
+        android:textSize="30dp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
