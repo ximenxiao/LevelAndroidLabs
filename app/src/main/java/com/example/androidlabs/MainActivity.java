@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     EditText editText;
     Button loginButton;
     SharedPreferences prefs;
+    String previous;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +28,14 @@ public class MainActivity extends AppCompatActivity {
         editText=findViewById(R.id.emailText);
         prefs = getSharedPreferences("FileName", MODE_PRIVATE);
         loginButton = findViewById(R.id.loginButton);
-        String previous = prefs.getString("ReserveEmail", "Default Value");
+        previous = prefs.getString("ReservedEmail", " ");
         editText.setText(previous);
         //Log.d("MainActivity",previous);
 
         if(loginButton != null)
             loginButton.setOnClickListener(v -> {
                 Intent goToPage2 = new Intent(MainActivity.this, ProfileActivity.class);
+                goToPage2.putExtra("ReservedEmail", editText.getText().toString());
                 startActivity(goToPage2);
             });
 

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
 import android.graphics.Bitmap;
@@ -23,15 +21,14 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main_linear);
-        //setContentView(R.layout.activity_main_relative);
-        //setContentView(R.layout.activity_main_grid);
         setContentView(R.layout.activity_second);
-        prefs = getSharedPreferences("FileName", MODE_PRIVATE);
-        String previous = prefs.getString("ReserveEmail", "Default Value");
-
+        //prefs = getSharedPreferences("FileName", MODE_PRIVATE);
+        //String previous = prefs.getString("ReserveEmail", " ");
+        Intent dataFromPreviousPage = getIntent();
+        String whatUserTyped = dataFromPreviousPage.getStringExtra("ReservedEmail");
         EditText emailAddress=findViewById(R.id.enteredEmail);
-        emailAddress.setText(previous);
+        //emailAddress.setText(previous);
+        emailAddress.setText(whatUserTyped);
         mImageButton=findViewById(R.id.imagePicture);
         mImageButton.setOnClickListener(e->{dispatchTakePictureIntent();});
         Log.e("ACTIVITY_NAME","In function:"+"OnCreate");
