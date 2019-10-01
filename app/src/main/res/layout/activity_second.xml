@@ -8,14 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/YourProfile"
-        android:textSize="30dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/yourName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/yourName"
-        android:textSize="30dp" />
+        android:textSize="20dp" />
 
     <EditText
         android:id="@+id/enterName"
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/yourEmail"
-        android:textSize="30dp" />
+        android:textSize="20dp" />
 
     <EditText
         android:id="@+id/enteredEmail"
@@ -46,12 +46,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/picture"
-        android:textSize="30dp" />
+        android:textSize="20dp" />
 
     <ImageButton
         android:id="@+id/imagePicture"
-        android:padding="0dp"
-        android:layout_width="wrap_content"
+
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@android:drawable/picture_frame"
         />
@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/notes"
-        android:textSize="30dp" />
+        android:textSize="20dp" />
 
 
 
