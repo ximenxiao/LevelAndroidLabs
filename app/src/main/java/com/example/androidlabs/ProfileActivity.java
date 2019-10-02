@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
 import android.graphics.Bitmap;
@@ -12,25 +13,32 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileActivity extends AppCompatActivity {
-    SharedPreferences prefs;
-    ImageButton mImageButton;
-    public static final String ACTIVITY_NAME = "PROFILEACTIVITY";
 
+    ImageButton mImageButton;
+    Button chatButton;
+    public static final String ACTIVITY_NAME = "PROFILEACTIVITY";
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        //prefs = getSharedPreferences("FileName", MODE_PRIVATE);
-        //String previous = prefs.getString("ReserveEmail", " ");
+
         Intent dataFromPreviousPage = getIntent();
         String whatUserTyped = dataFromPreviousPage.getStringExtra("ReservedEmail");
         EditText emailAddress=findViewById(R.id.enteredEmail);
-        //emailAddress.setText(previous);
+
         emailAddress.setText(whatUserTyped);
         mImageButton=findViewById(R.id.imagePicture);
         mImageButton.setOnClickListener(e->{dispatchTakePictureIntent();});
+        chatButton=findViewById(R.id.goToChat);
+        if(chatButton != null)
+        chatButton.setOnClickListener(v -> {
+                Intent goToChatRoom = new Intent(ProfileActivity.this, ChatRoomActivity.class);
+
+                startActivity(goToChatRoom);
+            });
+
         Log.e("ACTIVITY_NAME","In function:"+"OnCreate");
     }
 

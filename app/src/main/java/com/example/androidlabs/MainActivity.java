@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         if(loginButton != null)
             loginButton.setOnClickListener(v -> {
                 Intent goToPage2 = new Intent(MainActivity.this, ProfileActivity.class);
-                goToPage2.putExtra("ReservedEmail", editText.getText().toString());
+                goToPage2.putExtra("ReserveEmail", editText.getText().toString());
                 startActivity(goToPage2);
             });
 

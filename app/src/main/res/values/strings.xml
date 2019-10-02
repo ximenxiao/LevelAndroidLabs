@@ -19,6 +19,9 @@
     <string name="enteredEmail">Enter your email</string>
     <string name="picture">Your picture:</string>
     <string name="notes">Click the button above to take a picture</string>
+    <string name="goToChatText">go To Chat</string>
+    <string name="sendButton">sendButton</string>
+    <string name="receiveButton">receiveButton</string>
 
 
 </resources>
