@@ -35,7 +35,6 @@ public class ProfileActivity extends AppCompatActivity {
         if(chatButton != null)
         chatButton.setOnClickListener(v -> {
                 Intent goToChatRoom = new Intent(ProfileActivity.this, ChatRoomActivity.class);
-
                 startActivity(goToChatRoom);
             });
 

@@ -22,6 +22,7 @@
     <string name="picture">个人图像</string>
     <string name="notes">请点击按钮照相</string>
     <string name="goToChatText">聊天</string>
-    <string name="sendButton">sendButton</string>
-    <string name="receiveButton">receiveButton</string>
+    <string name="sendButton">发送</string>
+    <string name="receiveButton">收到</string>
+    <string name="typeHere">请输入</string>
 </resources>

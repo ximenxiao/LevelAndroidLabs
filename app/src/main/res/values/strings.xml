@@ -22,6 +22,7 @@
     <string name="goToChatText">go To Chat</string>
     <string name="sendButton">send</string>
     <string name="receiveButton">receive</string>
+    <string name="typeHere">Type Here</string>
 
 
 </resources>
