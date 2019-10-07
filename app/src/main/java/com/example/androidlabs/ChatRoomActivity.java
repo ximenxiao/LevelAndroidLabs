@@ -1,5 +1,8 @@
 package com.example.androidlabs;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +28,6 @@ public class ChatRoomActivity extends AppCompatActivity  {
     Button receiveButton;
     EditText enteredText;
     String content;
-    //TextView itemText;
     Message msg;
     ListView theList;
     @Override
@@ -35,21 +37,16 @@ public class ChatRoomActivity extends AppCompatActivity  {
 
         //You only need 2 lines in onCreate to actually display data:
         theList = findViewById(R.id.theList);
+
+        MyDatabaseOpenHelper dbOpener = new MyDatabaseOpenHelper(this);
+        SQLiteDatabase db = dbOpener.getWritableDatabase();
+
         theList.setAdapter( myAdapter = new MyListAdapter() );
         theList.setOnItemClickListener( ( lv, vw, pos, id) ->{
             Toast.makeText( ChatRoomActivity.this,
                     "You clicked on:" + pos, Toast.LENGTH_SHORT).show();
 
         } );
-        //question 4 display
-        /*Button sendButton = findViewById(R.id.send);
-        sendButton.setOnClickListener( clik ->
-        {
-            objects.add("Item " + (1+objects.size()) );
-            TextView textView=findViewById(R.id.itemField);
-            myAdapter.notifyDataSetChanged(); //update yourself
-        });*/
-
         //chatroom
 
 
@@ -58,13 +55,21 @@ public class ChatRoomActivity extends AppCompatActivity  {
 
         sendButton.setOnClickListener( clik ->
         {
-            //objects.add("Item " + (1+objects.size()) );
-            //TextView textView=findViewById(R.id.itemField);
-            //enteredText=findViewById(R.id.messageTyped);
+
             content=enteredText.getText().toString();
-           // content=enteredText.getText().toString();
-            msg=new Message(content, 1);
-            objects.add(msg);
+
+            //add to the database and get the new ID
+            ContentValues newRowValues = new ContentValues();
+            //put string name in the NAME column:
+            newRowValues.put(MyDatabaseOpenHelper.COL_NAME, content);
+            //msg=new Message(content, 1);
+            //objects.add(msg);
+            long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
+            String [] columns = {MyDatabaseOpenHelper.COL_ID, MyDatabaseOpenHelper.COL_EMAIL, MyDatabaseOpenHelper.COL_NAME};
+            Cursor results = db.query(false, MyDatabaseOpenHelper.TABLE_NAME, columns, null, null, null, null, null, null);
+
+            //now you have the newId, you can create the Contact object
+          //  Message newMessage = new Message(content,1, newId);
             myAdapter.notifyDataSetChanged(); //update yourself
             enteredText.setText("");
             // theList.setSelection(objects.size());
@@ -77,7 +82,12 @@ public class ChatRoomActivity extends AppCompatActivity  {
            // enteredText=findViewById(R.id.messageTyped);
            // enteredText=findViewById(R.id.messageTyped);
             content=enteredText.getText().toString();
-            msg=new Message(content, Message.TYPE_RECE);
+            ContentValues newRowValues = new ContentValues();
+            //put string name in the NAME column:
+            newRowValues.put(MyDatabaseOpenHelper.COL_NAME, content);
+            long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
+
+            msg=new Message(content, Message.TYPE_RECE, newId);
             objects.add(msg);
             enteredText.setText("");
             myAdapter.notifyDataSetChanged(); //update yourself

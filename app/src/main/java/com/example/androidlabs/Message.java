@@ -11,10 +11,12 @@ public class Message extends AppCompatActivity {
 
     String message;
     public int type;
+    long dbid;
 
-    public Message(String message, int type){
+    public Message(String message, int type, long dbid){
         this.message=message;
         this.type=type;
+        this.dbid=dbid;
     }
 
     public String getMessage(){
@@ -25,6 +27,7 @@ public class Message extends AppCompatActivity {
         return type;
     }
 
-
-
+    public long getdbid() {
+        return dbid;
+    }
 }
