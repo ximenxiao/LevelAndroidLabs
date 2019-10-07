@@ -9,7 +9,7 @@ public class Message extends AppCompatActivity {
     public static final int TYPE_RECE = 0;
     public static final int TYPE_SEND = 1;
 
-    private String message;
+    String message;
     public int type;
 
     public Message(String message, int type){
