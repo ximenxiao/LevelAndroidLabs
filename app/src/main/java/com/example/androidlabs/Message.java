@@ -6,16 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Message extends AppCompatActivity {
 
-    public static final int TYPE_RECE = 0;
-    public static final int TYPE_SEND = 1;
+   // public static final int TYPE_RECE = 0;
+    //public static final int TYPE_SEND = 1;
+    private boolean isSent;
+    private String message;
+    //private int type;
+    private long dbid;
 
-    String message;
-    public int type;
-    long dbid;
-
-    public Message(String message, int type, long dbid){
+    public Message(String message, boolean isSent, long dbid){
         this.message=message;
-        this.type=type;
+       // this.type=type;
+        this.isSent=isSent;
         this.dbid=dbid;
     }
 
@@ -23,8 +24,8 @@ public class Message extends AppCompatActivity {
         return message;
     }
 
-    public int getType(){
-        return type;
+    public boolean isSent() {
+        return isSent;
     }
 
     public long getdbid() {

@@ -26,6 +26,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent dataFromPreviousPage = getIntent();
         String whatUserTyped = dataFromPreviousPage.getStringExtra("ReservedEmail");
+       // double doublevalue=dataFromPreviousPage.getDoubleExtra("doublevalue",0);
+        //Log.d("doublevalue-test", Double.toString(doublevalue) );
         EditText emailAddress=findViewById(R.id.enteredEmail);
 
         emailAddress.setText(whatUserTyped);

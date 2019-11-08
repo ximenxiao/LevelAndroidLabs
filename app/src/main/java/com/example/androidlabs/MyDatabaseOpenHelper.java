@@ -7,12 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class MyDatabaseOpenHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "MyDatabaseFile";
-    public static final int VERSION_NUM = 1;
-    public static final String TABLE_NAME = "Contacts";
+    public static final String DATABASE_NAME = "MyDatabase";
+    public static final int VERSION_NUM = 2;
+    public static final String TABLE_NAME = "messages";
     public static final String COL_ID = "_id";
     public static final String COL_NAME = "MYMESSAGE";
-    //public static final String COL_EMAIL = "EMAIL";
+    public static final String COL_ISSENT = "ISSENT";
 
 
     public MyDatabaseOpenHelper(Activity ctx){
@@ -23,9 +23,10 @@ public class MyDatabaseOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db)
     {
         //Make sure you put spaces between SQL statements and Java strings:
+
         db.execSQL("CREATE TABLE " + TABLE_NAME + "( "
                 + COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COL_NAME + " TEXT )" );
+                + COL_NAME + " TEXT, " + COL_ISSENT + " TEXT)");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)

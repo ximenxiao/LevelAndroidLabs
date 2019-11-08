@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
             loginButton.setOnClickListener(v -> {
                 Intent goToPage2 = new Intent(MainActivity.this, ProfileActivity.class);
                 goToPage2.putExtra("ReservedEmail", editText.getText().toString());
+              //  goToPage2.putExtra("doublevalue", 23.34);
                 startActivity(goToPage2);
             });
 

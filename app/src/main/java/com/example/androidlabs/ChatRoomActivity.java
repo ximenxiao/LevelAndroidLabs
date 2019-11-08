@@ -2,8 +2,11 @@ package com.example.androidlabs;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +31,10 @@ public class ChatRoomActivity extends AppCompatActivity  {
     Button receiveButton;
     EditText enteredText;
     String content;
-    Message msg;
+    //Message msg;
     ListView theList;
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
 
@@ -40,6 +43,28 @@ public class ChatRoomActivity extends AppCompatActivity  {
 
         MyDatabaseOpenHelper dbOpener = new MyDatabaseOpenHelper(this);
         SQLiteDatabase db = dbOpener.getWritableDatabase();
+
+        String [] columns = {MyDatabaseOpenHelper.COL_ID, MyDatabaseOpenHelper.COL_NAME,MyDatabaseOpenHelper.COL_ISSENT};
+        Cursor results = db.query(false, MyDatabaseOpenHelper.TABLE_NAME, columns, null, null, null, null, null, null);
+        printCursor(results);
+        //find the column indices:
+        int nameColIndex = results.getColumnIndex(MyDatabaseOpenHelper.COL_NAME);
+        int sentColIndex = results.getColumnIndex(MyDatabaseOpenHelper.COL_ISSENT);
+        int idColIndex = results.getColumnIndex(MyDatabaseOpenHelper.COL_ID);
+
+        //iterate over the results, return true if there is a next item:
+        while(results.moveToNext())
+        {
+            String name = results.getString(nameColIndex);
+            //String email = results.getString(emailColumnIndex);
+            boolean isSent=Boolean.valueOf(results.getString(sentColIndex));
+            long id = results.getLong(idColIndex);
+            //add the new Contact to the array list:
+            objects.add(new Message(name, isSent, id));
+        }
+
+
+
 
         theList.setAdapter( myAdapter = new MyListAdapter() );
         theList.setOnItemClickListener( ( lv, vw, pos, id) ->{
@@ -58,20 +83,22 @@ public class ChatRoomActivity extends AppCompatActivity  {
 
             content=enteredText.getText().toString();
 
+
             //add to the database and get the new ID
             ContentValues newRowValues = new ContentValues();
             //put string name in the NAME column:
             newRowValues.put(MyDatabaseOpenHelper.COL_NAME, content);
-            //msg=new Message(content, 1);
-            //objects.add(msg);
-            long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
-            String [] columns = {MyDatabaseOpenHelper.COL_ID, MyDatabaseOpenHelper.COL_EMAIL, MyDatabaseOpenHelper.COL_NAME};
-            Cursor results = db.query(false, MyDatabaseOpenHelper.TABLE_NAME, columns, null, null, null, null, null, null);
+            newRowValues.put(MyDatabaseOpenHelper.COL_ISSENT, "true");
 
-            //now you have the newId, you can create the Contact object
-          //  Message newMessage = new Message(content,1, newId);
+
+            long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
+
+            //now you have the newId, you can create the Message object
+            Message newMessage = new Message(content,true, newId);
+            objects.add(newMessage);
             myAdapter.notifyDataSetChanged(); //update yourself
             enteredText.setText("");
+            //printCursor(results);
             // theList.setSelection(objects.size());
 
         });
@@ -79,19 +106,25 @@ public class ChatRoomActivity extends AppCompatActivity  {
         receiveButton = findViewById(R.id.receive);
         receiveButton.setOnClickListener( clik ->
         {
-           // enteredText=findViewById(R.id.messageTyped);
-           // enteredText=findViewById(R.id.messageTyped);
             content=enteredText.getText().toString();
+
+
+            //add to the database and get the new ID
             ContentValues newRowValues = new ContentValues();
             //put string name in the NAME column:
             newRowValues.put(MyDatabaseOpenHelper.COL_NAME, content);
+            newRowValues.put(MyDatabaseOpenHelper.COL_ISSENT, "false");
+
+            //msg=new Message(content, 1);
             long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
 
-            msg=new Message(content, Message.TYPE_RECE, newId);
-            objects.add(msg);
-            enteredText.setText("");
+            //now you have the newId, you can create the Message object
+            Message newMessage = new Message(content,false, newId);
+            objects.add(newMessage);
             myAdapter.notifyDataSetChanged(); //update yourself
-            //theList.setSelection(objects.size());
+            enteredText.setText("");
+           // printCursor(results);
+            // theList.setSelection(objects.size());
 
         });
 
@@ -133,8 +166,8 @@ public class ChatRoomActivity extends AppCompatActivity  {
             View thisRow = null;//recycled;
             LayoutInflater inflater = getLayoutInflater();
 
-            if (thisRow == null) {
-                if (getItem(p).getType() == 1) {
+
+                if (getItem(p).isSent() ) {
                     thisRow = inflater.inflate(R.layout.activity_send_avatar, null);
 
                 } else {
@@ -142,8 +175,8 @@ public class ChatRoomActivity extends AppCompatActivity  {
 
                 }
 
-            }
-            if (getItem(p).getType() == 1) {
+
+            if (getItem(p).isSent()) {
                 TextView itemText = thisRow.findViewById(R.id.sendMessageText);
                 itemText.setText(getItem(p).getMessage());
             } else {
@@ -155,6 +188,46 @@ public class ChatRoomActivity extends AppCompatActivity  {
 
 
         }
+    }
+    private void printCursor(Cursor c){
+        if(c.getCount()!=0){
+            Log.e("DB Version : ", String.valueOf(MyDatabaseOpenHelper.VERSION_NUM));
+            Log.e("Number of columns : ", String.valueOf(c.getColumnCount()));
+            Log.e("Number of Results : ", String.valueOf(c.getCount()));
+            Log.e("Cursors : ", DatabaseUtils.dumpCursorToString(c));
+
+
+          for(int i=0;i<3;i++) {
+            Log.e("Column name are",c.getColumnName(i));
+          }}
+
+
+
+
+     /* int numOfColumn=c.getColumnCount();
+      String[] names=c.getColumnNames();
+      int results=c.getCount();
+
+
+        //find the column indices:
+        int nameColIndex = c.getColumnIndex(MyDatabaseOpenHelper.COL_NAME);
+        int sentColIndex = c.getColumnIndex(MyDatabaseOpenHelper.COL_ISSENT);
+        int idColIndex = c.getColumnIndex(MyDatabaseOpenHelper.COL_ID);
+
+        //iterate over the results, return true if there is a next item:
+        while(c.moveToNext())
+        {
+            String name = c.getString(nameColIndex);
+            //String email = results.getString(emailColumnIndex);
+            boolean isSent=Boolean.valueOf(c.getString(sentColIndex));
+            long id = c.getLong(idColIndex);
+
+            //add the new Contact to the array list:
+            objects.add(new Message(name, isSent, id));
+        }
+
+
+    */
     }
 
 }
