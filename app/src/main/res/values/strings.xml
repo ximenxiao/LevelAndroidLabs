@@ -23,6 +23,12 @@
     <string name="sendButton">send</string>
     <string name="receiveButton">receive</string>
     <string name="typeHere">Type Here</string>
+    <string name="goToToolbar">Go to Toolbar page</string>
+    <string name="car">car</string>
+    <string name="currency">Currency</string>
+    <string name="news">News</string>
+    <string name="menuDialog">Type here</string>
+    <string name="recipe">Recipe</string>
 
 
 </resources>
