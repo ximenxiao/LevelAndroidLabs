@@ -1,6 +1,7 @@
 package com.example.androidlabs;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,10 +34,16 @@ public class ChatRoomActivity extends AppCompatActivity  {
     String content;
     //Message msg;
     ListView theList;
+    public static final String ITEM_SELECTED = "ITEM";
+    public static final String ITEM_POSITION = "POSITION";
+    public static final String ITEM_SENT = "SENT";
+    public static final String ITEM_ID = "ID";
+    public static final int EMPTY_ACTIVITY = 345;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
+        boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
 
         //You only need 2 lines in onCreate to actually display data:
         theList = findViewById(R.id.theList);
@@ -68,11 +75,36 @@ public class ChatRoomActivity extends AppCompatActivity  {
 
         theList.setAdapter( myAdapter = new MyListAdapter() );
         theList.setOnItemClickListener( ( lv, vw, pos, id) ->{
-            Toast.makeText( ChatRoomActivity.this,
-                    "You clicked on:" + pos, Toast.LENGTH_SHORT).show();
+           int positionClicked = pos;
 
-        } );
+           Message choseOne= objects.get(positionClicked);
+
+            Bundle dataToPass = new Bundle();
+            dataToPass.putString(ITEM_SELECTED, choseOne.getMessage() );
+            dataToPass.putBoolean(ITEM_SENT, choseOne.isSent());
+            dataToPass.putInt(ITEM_POSITION, positionClicked);
+            dataToPass.putLong(ITEM_ID, choseOne.getdbid());
+
+            if(isTablet)
+            {
+                DetailFragment dFragment = new DetailFragment(); //add a DetailFragment
+                dFragment.setArguments( dataToPass ); //pass it a bundle for information
+                dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                        .addToBackStack("AnyName") //make the back button undo the transaction
+                        .commit(); //actually load the fragment.
+            }
+            else //isPhone
+            {
+                Intent nextActivity = new Intent(ChatRoomActivity.this, EmptyActivity.class);
+                nextActivity.putExtras(dataToPass); //send data to next activity
+                startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
+            }
+        });
         //chatroom
+
 
 
         sendButton = findViewById(R.id.send);
@@ -130,6 +162,27 @@ public class ChatRoomActivity extends AppCompatActivity  {
 
     }
 
+
+    //This function only gets called on the phone. The tablet never goes to a new activity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == EMPTY_ACTIVITY)
+        {
+            if(resultCode == RESULT_OK) //if you hit the delete button instead of back button
+            {
+                long id = data.getLongExtra(ITEM_ID, 0);
+                deleteMessageId((int)id);
+            }
+        }
+    }
+
+    public void deleteMessageId(int id)
+    {
+        Log.i("Delete this message:" , " id="+id);
+        objects.remove(id);
+        myAdapter.notifyDataSetChanged();
+    }
 
     //Need to add 4 functions here:
     private class MyListAdapter extends BaseAdapter {
