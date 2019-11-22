@@ -18,6 +18,7 @@ import static android.app.ProgressDialog.show;
 import com.google.android.material.snackbar.Snackbar;
 public class TestToolbar extends AppCompatActivity {
 
+String message="You clicked on overflow menu";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class TestToolbar extends AppCompatActivity {
         {
             //what to do when the menu item is selected:
             case R.id.choice4:
-                Toast.makeText(this, "You clicked on overflow menu", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 break;
             case R.id.choice1:
                 Toast.makeText(this, "This is the initial message", Toast.LENGTH_LONG).show();
@@ -94,8 +95,9 @@ public class TestToolbar extends AppCompatActivity {
             builder.setPositiveButton("Positive", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText et = (EditText)middle.findViewById(R.id.view_edit_text);
-                        Log.d("111111111111","2222222");
-                        et.setText("You clicked on the overflow menu");
+                      //  Log.d("111111111111","2222222");
+                        message=et.getText().toString();
+                        et.setText(message);
                     }
                 })
                 .setNegativeButton("Negative", new DialogInterface.OnClickListener() {

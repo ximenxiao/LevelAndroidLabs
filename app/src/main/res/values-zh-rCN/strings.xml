@@ -25,10 +25,10 @@
     <string name="sendButton">发送</string>
     <string name="receiveButton">收到</string>
     <string name="typeHere">请输入</string>
-    <string name="goToToolbar">Go to Toolbar page</string>
+    <string name="goToToolbar">菜单页</string>
     <string name="car">car</string>
     <string name="currency">Currency</string>
     <string name="news">News</string>
-    <string name="menuDialog">Type here</string>
+    <string name="menuDialog">输入</string>
     <string name="recipe">Receipe</string>
 </resources>
