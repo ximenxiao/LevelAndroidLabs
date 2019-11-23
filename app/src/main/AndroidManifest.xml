@@ -16,7 +16,11 @@
         <activity android:name=".TestToolbar"></activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ChatRoomActivity" />
+        <activity android:name=".EmptyActivity"/>
+        <activity android:name=".DetailFragment"/>
         <activity android:name=".MainActivity">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

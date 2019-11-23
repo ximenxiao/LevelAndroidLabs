@@ -32,6 +32,8 @@ public class ChatRoomActivity extends AppCompatActivity  {
     Button receiveButton;
     EditText enteredText;
     String content;
+    MyDatabaseOpenHelper dbOpener;
+    SQLiteDatabase db;
     //Message msg;
     ListView theList;
     public static final String ITEM_SELECTED = "ITEM";
@@ -48,8 +50,8 @@ public class ChatRoomActivity extends AppCompatActivity  {
         //You only need 2 lines in onCreate to actually display data:
         theList = findViewById(R.id.theList);
 
-        MyDatabaseOpenHelper dbOpener = new MyDatabaseOpenHelper(this);
-        SQLiteDatabase db = dbOpener.getWritableDatabase();
+        dbOpener = new MyDatabaseOpenHelper(this);
+        db = dbOpener.getWritableDatabase();
 
         String [] columns = {MyDatabaseOpenHelper.COL_ID, MyDatabaseOpenHelper.COL_NAME,MyDatabaseOpenHelper.COL_ISSENT};
         Cursor results = db.query(false, MyDatabaseOpenHelper.TABLE_NAME, columns, null, null, null, null, null, null);
@@ -72,10 +74,11 @@ public class ChatRoomActivity extends AppCompatActivity  {
 
 
 
-
-        theList.setAdapter( myAdapter = new MyListAdapter() );
-        theList.setOnItemClickListener( ( lv, vw, pos, id) ->{
-           int positionClicked = pos;
+        myAdapter = new MyListAdapter();
+        theList.setAdapter( myAdapter);
+        theList.setOnItemClickListener((parent,view,position, id)->{
+            Log.d("aaaaaaaaaaaaaa","fffffffffffff");
+           int positionClicked = position;
 
            Message choseOne= objects.get(positionClicked);
 
@@ -172,21 +175,27 @@ public class ChatRoomActivity extends AppCompatActivity  {
             if(resultCode == RESULT_OK) //if you hit the delete button instead of back button
             {
                 long id = data.getLongExtra(ITEM_ID, 0);
-                deleteMessageId((int)id);
+                int position=data.getIntExtra(ITEM_POSITION, 0);
+                //deleteMessageId((int)id);
+
+                Log.d("aaaaaaaaaaaaaaa", String.valueOf(id));
+                deleteMessageId(position);
             }
         }
     }
 
-    public void deleteMessageId(int id)
+    public void deleteMessageId(int position)
     {
-        Log.i("Delete this message:" , " id="+id);
-        objects.remove(id);
+        Log.i("Delete this message:" , " id="+position);
+        long id = objects.get(position).getdbid();
+        objects.remove(position);
+
+        int numDeleted = db.delete(MyDatabaseOpenHelper.TABLE_NAME, MyDatabaseOpenHelper.COL_ID + "=?", new String[] {Long.toString(id)});
         myAdapter.notifyDataSetChanged();
     }
 
     //Need to add 4 functions here:
     private class MyListAdapter extends BaseAdapter {
-
        // public MyListAdapter(Context context, int )
         public int getCount() {
             return objects.size();

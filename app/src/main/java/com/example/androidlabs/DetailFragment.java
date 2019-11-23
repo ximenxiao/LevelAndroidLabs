@@ -27,6 +27,7 @@ public class DetailFragment extends Fragment {
 
         dataFromActivity = getArguments();
         id = dataFromActivity.getLong(ChatRoomActivity.ITEM_ID );
+        int positionClicked=dataFromActivity.getInt(ChatRoomActivity.ITEM_POSITION);
 
         // Inflate the layout for this fragment
         View result =  inflater.inflate(R.layout.fragment_detail, container, false);
@@ -39,14 +40,15 @@ public class DetailFragment extends Fragment {
         TextView idView = (TextView)result.findViewById(R.id.idText);
         idView.setText("ID=" + id);
 
+
         // get the delete button, and add a click listener:
         Button deleteButton = (Button)result.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener( clk -> {
 
             if(isTablet) { //both the list and details are on the screen:
                 ChatRoomActivity parent = (ChatRoomActivity)getActivity();
-                parent.deleteMessageId((int)id); //this deletes the item and updates the list
-
+                //parent.deleteMessageId((int)id); //this deletes the item and updates the list
+                   parent.deleteMessageId(positionClicked);
 
                 //now remove the fragment since you deleted it from the database:
                 // this is the object to be removed, so remove(this):
@@ -57,7 +59,8 @@ public class DetailFragment extends Fragment {
             {
                 EmptyActivity parent = (EmptyActivity) getActivity();
                 Intent backToFragmentExample = new Intent();
-                backToFragmentExample.putExtra(ChatRoomActivity.ITEM_ID, dataFromActivity.getLong(ChatRoomActivity.ITEM_ID ));
+               // backToFragmentExample.putExtra(ChatRoomActivity.ITEM_ID, dataFromActivity.getLong(ChatRoomActivity.ITEM_ID ));
+                backToFragmentExample.putExtra(ChatRoomActivity.ITEM_POSITION, dataFromActivity.getInt(ChatRoomActivity.ITEM_POSITION ));
 
                 parent.setResult(Activity.RESULT_OK, backToFragmentExample); //send data back to FragmentExample in onActivityResult()
                 parent.finish(); //go back
