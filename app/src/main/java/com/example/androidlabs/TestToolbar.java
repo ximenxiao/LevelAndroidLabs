@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import static android.app.ProgressDialog.show;
-//import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 public class TestToolbar extends AppCompatActivity {
 
 String message="You clicked on overflow menu";
@@ -71,11 +71,11 @@ String message="You clicked on overflow menu";
                 alertExample();
                 break;
             case R.id.choice3:
-            //    Snackbar snackbar=Snackbar.make(findViewById(R.id.choice3), "",Snackbar.LENGTH_SHORT);
-             //   snackbar.setAction( "Go Back?", v->{
-               //    finish();
-            //});
-              //  snackbar.show();
+               Snackbar snackbar=Snackbar.make(findViewById(R.id.choice3), "",Snackbar.LENGTH_SHORT);
+               snackbar.setAction( "Go Back?", v->{
+                   finish();
+          });
+               snackbar.show();
 
                 break;
         }

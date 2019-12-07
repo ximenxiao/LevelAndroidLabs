@@ -8,8 +8,8 @@
         app:showAsAction="always"/>
 
 
-    <item android:id="@+id/choice2"
-
+    <item
+        android:id="@+id/choice2"
         android:icon="@drawable/icon_currency"
         app:showAsAction="always|collapseActionView"
         android:orderInCategory="20"
